@@ -43,22 +43,12 @@ NSString* const CWHessianChannelIOException = @"CWHessianChannelIOException";
 @synthesize replyTimeout = _replyTimeout;
 
 
--(void)dealloc;
-{
-  self.channel = nil;
-  self.translator = nil;
-  [pendingResponses release];
-  [localObjects release];
-  [remoteProxies release];
-  [lock release];
-  [super dealloc];
-}
 
 -(id)initWithChannel:(CWHessianChannel*)channel;
 {
   self = [self init];
   if (self) {
-    _channel = [channel retain];
+    _channel = channel;
     localObjects = [NSMutableDictionary new];
     remoteProxies = [NSMutableDictionary new];
   }
@@ -67,12 +57,11 @@ NSString* const CWHessianChannelIOException = @"CWHessianChannelIOException";
 
 -(id)initWithServiceURL:(NSURL*)URL;
 {
-  return [self initWithChannel:[[[CWHessianHTTPChannel alloc] initWithDelegate:self serviceURL:URL] autorelease]];
+  return [self initWithChannel:[[CWHessianHTTPChannel alloc] initWithDelegate:self serviceURL:URL]];
 }
 
 -(id)initWithReceiveStream:(NSInputStream*)receiveStream sendStream:(NSOutputStream*)sendStream;
 {
-  [self release];
   self = nil;
   NSAssert(NO, @"TODO: Create a Stream Channel");
   return self;
@@ -110,7 +99,6 @@ NSString* const CWHessianChannelIOException = @"CWHessianChannelIOException";
   if (connection) {
     connection.translator = [CWHessianTranslator defaultHessianTranslator];
   	proxy = [connection rootProxyWithProtocol:aProtocol];
-    [connection release];
   }
   return proxy;
 }
@@ -119,7 +107,7 @@ NSString* const CWHessianChannelIOException = @"CWHessianChannelIOException";
 {
   CWDistantHessianObject* proxy = [[CWDistantHessianObject alloc] 
                                    initWithConnection:self remoteId:nil protocol:aProtocol];
-  return [proxy autorelease];
+  return proxy;
 }
 
 -(void)channel:(CWHessianChannel*)channel didReceiveDataInInputStream:(NSInputStream*)inputStream;

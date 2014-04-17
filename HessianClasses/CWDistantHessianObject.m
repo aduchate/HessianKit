@@ -33,7 +33,7 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
   struct objc_method_description md = protocol_getMethodDescription(p, aSel, YES, YES);
   if (md.name == NULL) {
   	unsigned int count = 0;
-  	Protocol **pList = protocol_copyProtocolList(p, &count);
+  	Protocol *__unsafe_unretained*pList = protocol_copyProtocolList(p, &count);
     for (int index = 0; !methodSignature && index < 0; index++) {
       methodSignature = getMethodSignatureRecursively(pList[index], aSel);
     }
@@ -46,10 +46,10 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 
 
 @interface CWDistantHessianObject ()
-@property(retain, nonatomic) CWHessianConnection* connection;
-@property(retain, nonatomic) NSString* remoteId;
-@property(assign, nonatomic) Protocol* protocol;
-@property(retain, nonatomic) NSMutableDictionary* methodSignatures;
+@property(strong, nonatomic) CWHessianConnection* connection;
+@property(strong, nonatomic) NSString* remoteId;
+@property(unsafe_unretained, nonatomic) Protocol* protocol;
+@property(strong, nonatomic) NSMutableDictionary* methodSignatures;
 @end
 
 @implementation CWDistantHessianObject
@@ -61,11 +61,7 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 
 -(void)dealloc;
 {
-  self.connection = nil;
-  self.remoteId = nil;
   self.protocol = nil;
-  self.methodSignatures = nil;
-  [super dealloc];
 }
 
 -(NSString*)description;
@@ -78,7 +74,7 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
   CWDistantHessianObject* proxy = [[CWDistantHessianObject alloc] initWithConnection:connection
                                                                             remoteId:remoteId
                                                                             protocol:aProtocol];
-  return [proxy autorelease];
+  return proxy;
 }
 
 -(id)initWithConnection:(CWHessianConnection*)connection remoteId:(NSString*)remoteId protocol:(Protocol*)aProtocol;
@@ -125,7 +121,7 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector;
 {
   if (aSelector != _cmd && ![NSStringFromSelector(aSelector) hasPrefix:@"_cf"]) {
-    NSNumber* selectorKey = [NSNumber numberWithInteger:(NSInteger)aSelector];
+    NSString * selectorKey = [NSString stringWithUTF8String:sel_getName(aSelector)];
     NSMethodSignature* signature = [self.methodSignatures objectForKey:selectorKey];
     if (!signature) {
       signature = getMethodSignatureRecursively(self.protocol, aSelector);

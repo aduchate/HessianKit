@@ -50,7 +50,7 @@
 
 -(void)forwardInvocation:(NSInvocation*)invocation forProxy:(CWDistantHessianObject*)proxy;
 {
-  NSLog(@"Forward method %@ for proxy %@", NSStringFromSelector([invocation selector]), [proxy description]);
+  //NSLog(@"Forward method %@ for proxy %@", NSStringFromSelector([invocation selector]), [proxy description]);
   NSOutputStream* outputStream = [self.channel outputStreamForMessage];
   
   [lock lock];
@@ -96,7 +96,6 @@
     } while (YES);
   }
   NSLog(@"Fetched result:%@", [result description]);
-  [[result retain] autorelease];
   [lock lock];
   [pendingResponses removeObjectForKey:messageNumber];
   [lock unlock];
@@ -123,7 +122,7 @@
 -(void)writeArgumentAtIndex:(int*)pIndex type:(const char*)type archiver:(CWHessianArchiver*)archiver invocation:(NSInvocation*)invocation;
 {
   int index = *pIndex;
-  id object = nil;
+  id __unsafe_unretained object = nil;
   if (strcmp(type, @encode(BOOL)) == 0) {
   	BOOL value;
     [invocation getArgument:&value atIndex:index];
@@ -162,7 +161,7 @@
 
 -(void)archiveInvocation:(NSInvocation*)invocation asMessage:(NSNumber*)messageNumber toOutputStream:(NSOutputStream*)outputStream;
 {
-  CWHessianArchiver* archiver = [[[CWHessianArchiver alloc] initWithDelegate:self outputStream:outputStream] autorelease];
+  CWHessianArchiver* archiver = [[CWHessianArchiver alloc] initWithDelegate:self outputStream:outputStream];
   [archiver writeChar:'c'];
   [archiver writeChar:0x01];
   [archiver writeChar:0x00];
@@ -186,8 +185,8 @@
 -(id)unarchiveDataFromInputStream:(NSInputStream*)inputStream;
 {
   @try {
-    CWHessianUnarchiver* unarchiver = [[[CWHessianUnarchiver alloc] 
-                                        initWithDelegate:self inputStream:inputStream] autorelease];
+    CWHessianUnarchiver* unarchiver = [[CWHessianUnarchiver alloc] 
+                                        initWithDelegate:self inputStream:inputStream];
     char code = [unarchiver readChar];
     if (code == 'r') {
       int major = [unarchiver readChar];
@@ -220,7 +219,7 @@
   return nil;
 }
 
--(void)setReturnValue:(id)value invocation:(NSInvocation*)invocation;
+-(void)setReturnValue:(id __unsafe_unretained)value invocation:(NSInvocation*)invocation;
 {
   BOOL isInvalidClass = NO;
   const char* type = [[invocation methodSignature] methodReturnType];

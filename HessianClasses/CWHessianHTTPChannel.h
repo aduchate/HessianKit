@@ -25,7 +25,7 @@
   NSURL* _serviceURL;
 }
 
-@property(nonatomic,retain) NSURL* serviceURL;
+@property(nonatomic,strong) NSURL* serviceURL;
 
 -(id)initWithDelegate:(id<CWHessianChannelDelegate>)delegate serviceURL:(NSURL*)URL;
 

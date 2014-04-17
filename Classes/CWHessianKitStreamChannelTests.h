@@ -16,12 +16,12 @@
 //  limitations under the License.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "HessianKit.h"
 #import "Test.h"
 #import "CWStreamPipe.h"
 
-@interface CWHessianKitStreamChannelTests : SenTestCase {
+@interface CWHessianKitStreamChannelTests : XCTestCase {
 @private
   CWHessianConnection* serverConnection;
   CWHessianConnection* clientConnection;

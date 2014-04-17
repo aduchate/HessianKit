@@ -26,9 +26,7 @@
 
 - (void)dealloc
 {
-  [_instanceVariables release];
   _instanceVariables = nil;  
-  [super dealloc];
 }
 
 
@@ -36,7 +34,7 @@
 {
   CWValueObject* valueObject = [[CWValueObject alloc] initWithProtocol:aProtocol];
   if (valueObject) {
-    return [valueObject autorelease];
+    return valueObject;
   } else {
   	return nil;
   }
@@ -45,11 +43,9 @@
 -(id)initWithProtocol:(Protocol*)aProtocol;
 {
   Class aClass = [self classForProtocol:aProtocol];
-  [self release];
   self = nil;
   if (aClass) {
-    self = class_createInstance(aClass, 0);
-    self = [self init];
+    self = [[aClass alloc] init];
     self->_protocol = aProtocol;
     self->_instanceVariables = [[NSMutableDictionary alloc] init];
   }
@@ -95,7 +91,7 @@
       [encoder encodeObject:value forKey:propertyName];
     } else {
       [NSException raise:NSInternalInconsistencyException 
-                  format:@"Unknown type %s for property %@ in protocol %@", type, propertyName, NSStringFromProtocol(self.protocol)];
+                  format:@"Unknown type %c for property %@ in protocol %@", type, propertyName, NSStringFromProtocol(self.protocol)];
     }
   }
 }

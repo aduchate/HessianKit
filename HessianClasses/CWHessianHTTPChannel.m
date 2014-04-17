@@ -25,7 +25,6 @@
 -(id)initWithDelegate:(id<CWHessianChannelDelegate>)delegate serviceURL:(NSURL*)URL;
 {
   if (URL == nil) {
-    [self release];
     [NSException raise:NSInvalidArgumentException format:@"Service URL must not be nil"];
     self = nil;
   } else {
@@ -37,11 +36,6 @@
   return self;
 }
 
--(void)dealloc;
-{
-  self.serviceURL = nil;
-  [super dealloc];
-}
 
 -(BOOL)canVendObjects;
 {
@@ -72,12 +66,11 @@
   if (requestError) {
     responseData = nil;
     [NSException raise:NSInvalidArchiveOperationException 
-                format:@"Network error domain:%@ code:%d", [requestError domain], [requestError code]];
+                format:@"Network error domain:%@ code:%ld", [requestError domain], (long)[requestError code]];
   } else if (returnResponse != nil) {
   	if ([returnResponse statusCode] == 200) {
-      [responseData retain];
     } else {
-      [NSException raise:NSInvalidArchiveOperationException format:@"HTTP error %d", [returnResponse statusCode]];
+      [NSException raise:NSInvalidArchiveOperationException format:@"HTTP error %ld", (long)[returnResponse statusCode]];
       return;
     }
   } else {

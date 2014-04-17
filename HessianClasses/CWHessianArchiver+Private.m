@@ -37,7 +37,6 @@
 -(void)dealloc;
 {
   self.outputStream = nil;
-  [super dealloc];
 }
 
 -(NSString*)classNameForClass:(Class)aClass;

@@ -33,17 +33,9 @@
   CWHessianTranslator* translator = [[self alloc] initWithMethodTranslation:CWHessianMethodTranslationDromedarCase 
                                                         localTypeNamePrefix:nil
                                                       distantTypeNamePrefix:nil];
-  return [translator autorelease];
+  return translator;
 }
 
--(void)dealloc;
-{
-  self.localTypeNamePrefix = nil;
-  self.distantTypeNamePrefix = nil;
-  [typeNameTranslations release];
-  [methodNameTranslations release];
-  [super dealloc];
-}
 
 -(id)initWithMethodTranslation:(CWHessianMethodTranslation)methodTranslation localTypeNamePrefix:(NSString*)localPrefix distantTypeNamePrefix:(NSString*)distantPrefix;
 {

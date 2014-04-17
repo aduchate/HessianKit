@@ -34,7 +34,6 @@
 -(id)initWithDelegate:(id<CWHessianChannelDelegate>)delegate receiveStream:(NSInputStream*)receiveStream sendStream:(NSOutputStream*)sendStream;
 {
   if (receiveStream == nil || sendStream == nil) {
-    [self release];
     [NSException raise:NSInvalidArgumentException format:@"Receive and send streams must not be nil"];
     self = nil;
   } else {
@@ -65,9 +64,6 @@
     [self.receiveStream setDelegate:nil];
     [self.receiveStream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
   }
-  self.receiveStream = nil;
-  self.sendStream = nil;
-  [super dealloc];
 }
 
 
@@ -77,7 +73,7 @@
   if ([stream isKindOfClass:[NSInputStream class]] && streamEvent == NSStreamEventHasBytesAvailable) {
     [self.delegate channel:self didReceiveDataInInputStream:(NSInputStream*)stream];
   }
-  [stream stream:stream handleEvent:streamEvent];
+  //[stream stream:stream handleEvent:streamEvent];
 }
 
 @end

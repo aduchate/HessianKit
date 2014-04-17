@@ -38,7 +38,7 @@
 /*!
  * @abstract The output stream to archive data to.
  */
-@property(readonly, retain, nonatomic) NSOutputStream* outputStream;
+@property(readonly, strong, nonatomic) NSOutputStream* outputStream;
 
 -(void)encodeBool:(BOOL)boolv forKey:(NSString*)key;
 -(void)encodeInt32:(int32_t)intv forKey:(NSString*)key;
@@ -68,7 +68,7 @@
 /*!
  * @abstract The input stream to archive data from.
  */
-@property(readonly, retain, nonatomic) NSInputStream* inputStream;
+@property(readonly, strong, nonatomic) NSInputStream* inputStream;
 
 -(BOOL)containsValueForKey:(NSString*)key;
 -(BOOL)decodeBoolForKey:(NSString*)key;

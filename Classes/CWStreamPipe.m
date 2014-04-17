@@ -71,9 +71,6 @@
   if (buffer) {
     free(buffer);
   }
-  [_outputStream release];
-  [_inputStream release];
-  [super dealloc];
 }
 
 @end

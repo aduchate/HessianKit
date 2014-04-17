@@ -32,7 +32,7 @@
 
 @interface CWHessianConnection () <CWHessianChannelDelegate, CWHessianCoderDelegate>
 
-@property(readwrite, retain, nonatomic) CWHessianChannel* channel;
+@property(readwrite, strong, nonatomic) CWHessianChannel* channel;
 
 -(void)channel:(CWHessianChannel*)channel didReceiveDataInInputStream:(NSInputStream*)inputStream;
 

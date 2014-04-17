@@ -55,7 +55,6 @@
 -(void)dealloc;
 {
   self.inputStream = nil;
-  [super dealloc];
 }
 
 -(int)decodeIntForKey:(NSString*)key;
@@ -206,12 +205,12 @@
   NSXMLDocument* xmlDocument = [[NSXMLDocument alloc] initWithXMLString:xmlString options:NSXMLNodeOptionsNone error:&error]; 
   if (!xmlDocument) {
     if (error) {
-      [NSException raise:NSInvalidArchiveOperationException format:@"XML parse error domain:%@ code:%d", [error domain], [error code]];
+      [NSException raise:NSInvalidArchiveOperationException format:@"XML parse error domain:%@ code:%ld", [error domain], (long)[error code]];
     } else {
       [NSException raise:NSInvalidUnarchiveOperationException format:@"Unknown error in XML stream"];
     }
   }
-  return [xmlDocument autorelease];
+  return xmlDocument;
 }
 #endif
 
@@ -286,7 +285,7 @@
     [self.objectReferences addObject:map];
   }
   while ([self peekChar] != 'z') {
-    NSObject* key = [self readTypedObject];
+    NSObject<NSCopying> * key = [self readTypedObject];
     NSObject* object = [self readTypedObject];
     if (!object) {
       object = [NSNull null];
@@ -315,7 +314,7 @@
     if ([className length] > 0) {
       Class typedClass = [self classForClassName:className];
       if (typedClass) {
-        typedObject = class_createInstance(typedClass, 0);
+        typedObject = [[typedClass alloc] init];
         if (![typedClass conformsToProtocol:@protocol(NSCoding)]) {
           [NSException raise:NSInvalidUnarchiveOperationException format:@"%@ do not conform to NSCoding", className];
         }

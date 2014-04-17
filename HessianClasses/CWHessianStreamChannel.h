@@ -21,14 +21,14 @@
 #import "CWHessianChannel.h"
 
 
-@interface CWHessianStreamChannel : CWHessianChannel {
+@interface CWHessianStreamChannel : CWHessianChannel<NSStreamDelegate> {
 @private
   NSInputStream* _receiveStream;
   NSOutputStream* _sendStream;
 }
 
-@property(retain, nonatomic) NSInputStream* receiveStream;
-@property(retain, nonatomic) NSOutputStream* sendStream;
+@property(strong, nonatomic) NSInputStream* receiveStream;
+@property(strong, nonatomic) NSOutputStream* sendStream;
 
 -(id)initWithDelegate:(id<CWHessianChannelDelegate>)delegate receiveStream:(NSInputStream*)receiveStream sendStream:(NSOutputStream*)sendStream;
 

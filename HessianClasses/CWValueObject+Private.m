@@ -42,8 +42,7 @@ static NSString* CWPropertyNameFromSelector(SEL aSelector) {
       }
     }
   }
-  [propertyName retain];
-  return [propertyName autorelease];
+  return propertyName;
 }
 
 static SEL CWSetterSelectorFromPropertyName(NSString* propertyName) {
@@ -88,7 +87,7 @@ static BOOL CWAddProtocolImplementationsToClass(Class aClass, Protocol* aProtoco
         setterSEL = @selector(priv_setObjectValue:);
       }
     } else {
-      NSLog(@"Unknown type %s for property %@ in protocol %@", type, propertyName, NSStringFromProtocol(aProtocol));
+      NSLog(@"Unknown type %c for property %@ in protocol %@", type, propertyName, NSStringFromProtocol(aProtocol));
       success = NO;
     }
     if (success) {
@@ -102,7 +101,7 @@ static BOOL CWAddProtocolImplementationsToClass(Class aClass, Protocol* aProtoco
   }
   free(propertyList);
   if (success) {
-    Protocol** protocolList = protocol_copyProtocolList(aProtocol, &count);
+    Protocol*__unsafe_unretained* protocolList = protocol_copyProtocolList(aProtocol, &count);
   	for (int index = 0; index < count; index++) {
       Protocol* aChildProtocol = protocolList[index];
       success = CWAddProtocolImplementationsToClass(aClass, aChildProtocol);
@@ -122,7 +121,7 @@ static NSMutableArray* CWAllPropertyNamesForProtocol(Protocol* aProtocol) {
     [names addObject:propertyName];
   }
   free(propertyList);
-  Protocol** protocolList = protocol_copyProtocolList(aProtocol, &count);
+  Protocol*__unsafe_unretained* protocolList = protocol_copyProtocolList(aProtocol, &count);
   for (int index = 0; index < count; index++) {
     Protocol* aChildProtocol = protocolList[index];
     [names addObjectsFromArray:CWAllPropertyNamesForProtocol(aChildProtocol)];
@@ -241,7 +240,6 @@ static NSMutableArray* CWAllPropertyNamesForProtocol(Protocol* aProtocol) {
   } else {
   	object = [object copy];
     [_instanceVariables setObject:object forKey:CWPropertyNameFromSelector(_cmd)];	
-    [object release];
   }
 }
 
@@ -268,7 +266,6 @@ static NSMutableArray* CWAllPropertyNamesForProtocol(Protocol* aProtocol) {
         aClass = Nil;
       }
     }
-    [newClassName release];
   }
   return aClass;
 }

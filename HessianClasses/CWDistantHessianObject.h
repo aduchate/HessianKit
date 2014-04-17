@@ -61,24 +61,24 @@
 @private
   CWHessianConnection* _connection;
   NSString* _remoteId;
-  Protocol* _protocol;
+  Protocol* __unsafe_unretained _protocol;
   NSMutableDictionary* _methodSignatures;
 }
 
 /*!
  * @abstract The receivers associated @link //hessiankit_ref/occ/cl/CWHessianConnection <code>CWHessianConnection</code>@/link object.
  */
-@property(readonly, retain, nonatomic) CWHessianConnection* connection;
+@property(readonly, strong, nonatomic) CWHessianConnection* connection;
 
 /*!
  * @abstract The remote ID of the proxy object.
  */
-@property(readonly, retain, nonatomic) NSString* remoteId;
+@property(readonly, strong, nonatomic) NSString* remoteId;
 
 /*!
  * @abstract The protocol the receiver conforms to, a mirror of the interface the Hessian web service publishes.
  */
-@property(readonly, assign, nonatomic) Protocol* protocol;
+@property(readonly, unsafe_unretained, nonatomic) Protocol* protocol;
 
 /*!
  * @abstract Returns an <code>CWDistantHessianObject</code> associated with a given 

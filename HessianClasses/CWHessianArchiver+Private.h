@@ -26,7 +26,7 @@
 
 @interface CWHessianArchiver () 
 
-@property(retain, nonatomic) NSOutputStream* outputStream; 
+@property(strong, nonatomic) NSOutputStream* outputStream; 
 
 @end
 
@@ -61,8 +61,8 @@
 
 @interface CWHessianUnarchiver ()
 
-@property(retain, nonatomic) NSInputStream* inputStream; 
-@property(retain, nonatomic) NSDictionary* currentObjectMap;
+@property(strong, nonatomic) NSInputStream* inputStream; 
+@property(strong, nonatomic) NSDictionary* currentObjectMap;
 
 @end
 

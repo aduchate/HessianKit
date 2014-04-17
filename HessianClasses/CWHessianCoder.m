@@ -20,8 +20,8 @@
 #include <objc/runtime.h>
 
 @interface CWHessianCoder ()
-@property(readwrite, assign, nonatomic) id<CWHessianCoderDelegate> delegate;
-@property(readwrite, retain, nonatomic) NSMutableArray* objectReferences;
+@property(readwrite, unsafe_unretained, nonatomic) id<CWHessianCoderDelegate> delegate;
+@property(readwrite, strong, nonatomic) NSMutableArray* objectReferences;
 @end
 
 @implementation CWHessianCoder
@@ -32,8 +32,6 @@
 -(void)dealloc;
 {
   self.delegate = nil;
-  self.objectReferences = nil;
-  [super dealloc];
 }
 
 -(id)initWithDelegate:(id<CWHessianCoderDelegate>)delegate;

@@ -27,11 +27,6 @@
 @synthesize inputStream = _inputStream;
 @synthesize currentObjectMap = _currentObjectMap;
 
--(void)dealloc;
-{
-  self.currentObjectMap = nil;
-  [super dealloc];
-}
 
 -(BOOL)containsValueForKey:(NSString*)key;
 {

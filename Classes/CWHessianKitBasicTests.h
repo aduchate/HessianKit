@@ -16,12 +16,12 @@
 //  limitations under the License.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "HessianKit.h"
 #import "Test.h"
 
 
-@interface CWHessianKitBasicTests : SenTestCase {
+@interface CWHessianKitBasicTests : XCTestCase {
 @private
 	CWDistantHessianObject<Test>* proxy;
 }

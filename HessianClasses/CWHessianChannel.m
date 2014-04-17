@@ -47,7 +47,7 @@ void CopySerialNumber(CFStringRef *serialNumber) {
 
 @interface CWHessianChannel ()
 
-@property(readwrite, assign, nonatomic) id<CWHessianChannelDelegate> delegate;
+@property(readwrite, unsafe_unretained, nonatomic) id<CWHessianChannelDelegate> delegate;
 
 @end
 
@@ -68,8 +68,6 @@ void CopySerialNumber(CFStringRef *serialNumber) {
 -(void)dealloc;
 {
   self.delegate = nil;
-  [_remoteIdPrefix release];
-  [super dealloc];
 }
 
 -(BOOL)canVendObjects;
@@ -83,10 +81,10 @@ void CopySerialNumber(CFStringRef *serialNumber) {
 #if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
     CFStringRef serialNumber = NULL;
     CopySerialNumber(&serialNumber);
-    _remoteIdPrefix = [[NSString alloc] initWithString:(NSString*)serialNumber];
+    _remoteIdPrefix = [[NSString alloc] initWithString:(__bridge NSString*)serialNumber];
     CFRelease(serialNumber);
 #else
-    _remoteIdPrefix = [[UIDevice currentDevice].uniqueIdentifier retain];
+    _remoteIdPrefix = [[[[UIDevice currentDevice] identifierForVendor] description] retain];
 #endif
   }
   return _remoteIdPrefix;

@@ -34,14 +34,14 @@
  */
 @interface CWHessianChannel : NSObject {
 @private
-  id<CWHessianChannelDelegate> _delegate;
+  id<CWHessianChannelDelegate> __unsafe_unretained _delegate;
   NSString* _remoteIdPrefix;
 }
 
 /*!
  * @abstract The Hessian channel delegate.
  */
-@property(readonly, assign, nonatomic) id<CWHessianChannelDelegate> delegate;
+@property(readonly, unsafe_unretained, nonatomic) id<CWHessianChannelDelegate> delegate;
 
 /*!
  * @abstract Returns and initialized <code>CWHessianChannel</code> object.

@@ -37,7 +37,7 @@
  */
 @interface CWValueObject : NSObject <NSCoding> {
 @private
-	Protocol* _protocol;
+	Protocol* __unsafe_unretained _protocol;
   NSMutableDictionary* _instanceVariables;
 }
 
@@ -45,7 +45,7 @@
  * @abstract The protocol the automatically generated concrete subclass receiver conforms to,
  *           or nil if it is a manually implemented subclass.
  */
-@property(readonly, assign, nonatomic) Protocol* protocol;
+@property(readonly, unsafe_unretained, nonatomic) Protocol* protocol;
 
 /*!
  * @abstract Creates and returns a conrete subclass of <code>CWValueObject</code> object, that conforms to a protocol.

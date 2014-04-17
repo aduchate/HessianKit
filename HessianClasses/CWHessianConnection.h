@@ -68,12 +68,12 @@ typedef int CWHessianVersion;
 /*!
  * @abstract The channel for this Hessian connection.
  */
-@property(readonly, retain, nonatomic) CWHessianChannel* channel;
+@property(readonly, strong, nonatomic) CWHessianChannel* channel;
 
 /*!
  * @abstract The translator for this Hessian connection.
  */
-@property(retain, nonatomic) CWHessianTranslator* translator;
+@property(strong, nonatomic) CWHessianTranslator* translator;
 
 
 /*!
@@ -84,7 +84,7 @@ typedef int CWHessianVersion;
 /*!
  * @abstract The root object to vend to clients.
  */
-@property(retain, nonatomic) id<CWHessianRemoting> rootObject;
+@property(strong, nonatomic) id<CWHessianRemoting> rootObject;
 
 /*!
  * @abstract The timeout for outgoing method call requests. 

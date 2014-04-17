@@ -37,20 +37,20 @@
  */
 @interface CWHessianCoder : NSCoder {
 @private
-  id<CWHessianCoderDelegate> _delegate;
+  id<CWHessianCoderDelegate> __unsafe_unretained _delegate;
   NSMutableArray* _objectReferences;
 }
 
 /*!
  * @abstract The Hessian coer delegate.
  */
-@property(readonly, assign, nonatomic) id<CWHessianCoderDelegate> delegate;
+@property(readonly, unsafe_unretained, nonatomic) id<CWHessianCoderDelegate> delegate;
 
 /*!
  * @abstract A <code>NSMutableArray</code> object that is used by concrete subclasses to keep track of reference object to avoid
  * 					 circular references and save data pay load.
  */
-@property(readonly, retain, nonatomic) NSMutableArray* objectReferences;
+@property(readonly, strong, nonatomic) NSMutableArray* objectReferences;
 
 /*!
  * @abstract Returns an initialized <code>CWHessianCoder</code> object.

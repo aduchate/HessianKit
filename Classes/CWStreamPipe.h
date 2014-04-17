@@ -28,8 +28,8 @@
   NSUInteger bytesAvailable;
 }
 
-@property(readonly, retain, nonatomic) NSOutputStream* outputStream;
-@property(readonly, retain, nonatomic) NSInputStream* inputStream;
+@property(readonly, strong, nonatomic) NSOutputStream* outputStream;
+@property(readonly, strong, nonatomic) NSInputStream* inputStream;
 
 -(id)initWithCapacity:(NSUInteger)capacity;
 
